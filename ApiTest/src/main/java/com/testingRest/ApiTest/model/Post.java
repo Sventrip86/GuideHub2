@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -31,18 +33,18 @@ public class Post {
     private String body;
 
 
-
     @Column(name = "post_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date date;
 
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     // No-arg constructor
     public Post() {
     }
-
-
-
 
 
     public String getTitle() {
@@ -77,6 +79,14 @@ public class Post {
     public void setPostId(Long postId) {
         this.postId = postId;
     }
+
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+
 }
-
-
