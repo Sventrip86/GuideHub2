@@ -9,6 +9,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { LoginComponent } from './components/login/login.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { HomeComponent } from './components/home/home.component';
+import {MatSelectModule} from '@angular/material/select';
+
+
+
 
 
 @NgModule({
@@ -16,7 +26,9 @@ import { LoginComponent } from './components/login/login.component';
     AppComponent,
     PostsComponent,
     CategoriesComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent,
+    
   ],
   imports: [
     BrowserModule,
@@ -24,7 +36,12 @@ import { LoginComponent } from './components/login/login.component';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule  
   ],
   providers: [ ],
   bootstrap: [AppComponent]

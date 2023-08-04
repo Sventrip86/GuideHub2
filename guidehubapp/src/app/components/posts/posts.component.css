@@ -1,65 +1,70 @@
 body {
-    background-color: #282c34;
-    color: #fff;
-    font-family: Arial, sans-serif;
-  }
-  
-  .container {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-  }
-  
-  .form-section,
-  .table-section {
-    flex: 0 0 45%; /* adjust this as necessary */
-    background-color: #444;
-    padding: 20px;
-    border-radius: 10px;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    color: #fff;
-  }
-  
-  form input,
-  form textarea {
-    margin-bottom: 10px;
-    padding: 5px;
-  }
-  
-  button {
-    padding: 5px 10px;
-    color: #fff;
-    background-color: #007BFF;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #0056b3;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    color: #fff;
-  }
-  
-  table,
-  th,
-  td {
-    border: 1px solid #fff;
-    padding: 10px;
-    text-align: left;
-    color: #fff;
-  }
-  
-  th,
-  td {
-    text-align: left;
-  }
-  
+  background-color: #282c34;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  flex-wrap: wrap; /* This allows the columns to be responsive */
+}
+
+.form-section,
+.table-section {
+  flex: 0 0 calc(50% - 20px); /* This makes the columns flexible */
+  background-color: #444;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px; /* Add margin to the bottom of each section */
+}
+
+/* Rest of your CSS */
+
+form {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+}
+
+::ng-deep .mat-form-field .mat-form-field-wrapper {
+  padding-bottom: .5em;
+}
+
+::ng-deep .mat-form-field .mat-form-field-flex {
+  border-bottom: none;
+}
+
+::ng-deep .mat-form-field .mat-form-field-infix {
+  border: 1px solid lightgray;
+  border-radius: 5px;
+}
+
+button {
+  padding: 5px 10px;
+  color: #fff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+::ng-deep .mat-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #fff;
+}
+
+::ng-deep .mat-table,
+::ng-deep .mat-header-cell,
+::ng-deep .mat-cell {
+  border: 1px solid #fff;
+  padding: 10px;
+  text-align: left;
+  color: #fff;
+}

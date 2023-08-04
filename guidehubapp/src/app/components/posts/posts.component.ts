@@ -12,6 +12,9 @@ export class PostsComponent implements OnInit {
   postForm: FormGroup;
   categories: any[] = [];
 
+  displayedColumns: string[] = ['postId', 'title', 'category', 'body', 'date', 'actions'];
+
+
   // Form for creating a new post
   newPost = { title: '', body: '' };
 

@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "angularx-social-login": "^4.1.0"
+    "angularx-social-login": "^4.1.0",
+    "bootstrap": "^5.3.1"
   }
 }
