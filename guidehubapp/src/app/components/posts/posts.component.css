@@ -1,70 +1,74 @@
 body {
-  background-color: #282c34;
-  color: #fff;
+  background-color: #f4f4f4;
+  color: #333;
   font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
+  max-width: 1000px;
+  margin: 20px auto;
   display: flex;
   justify-content: space-between;
-  padding: 20px;
-  flex-wrap: wrap; /* This allows the columns to be responsive */
+  flex-wrap: wrap;
 }
 
 .form-section,
 .table-section {
-  flex: 0 0 calc(50% - 20px); /* This makes the columns flexible */
-  background-color: #444;
-  padding: 20px;
+  flex: 0 0 calc(50% - 10px);
+  background-color: #fff;
+  padding: 15px;
   border-radius: 10px;
-  margin-bottom: 20px; /* Add margin to the bottom of each section */
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
-/* Rest of your CSS */
 
 form {
   display: flex;
   flex-direction: column;
-  color: #fff;
 }
 
-::ng-deep .mat-form-field .mat-form-field-wrapper {
-  padding-bottom: .5em;
+.mat-form-field,
+.quill-editor {
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
-::ng-deep .mat-form-field .mat-form-field-flex {
-  border-bottom: none;
-}
-
-::ng-deep .mat-form-field .mat-form-field-infix {
-  border: 1px solid lightgray;
+::ng-deep .quill-editor .ql-container {
+  height: 200px;
+  background-color: #fff;
+  color: #333;
   border-radius: 5px;
 }
 
 button {
-  padding: 5px 10px;
+  padding: 8px 15px;
   color: #fff;
-  background-color: #007BFF;
+  background-color: #555;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #444;
 }
 
 ::ng-deep .mat-table {
   width: 100%;
   border-collapse: collapse;
-  color: #fff;
+  color: #333;
 }
 
 ::ng-deep .mat-table,
 ::ng-deep .mat-header-cell,
 ::ng-deep .mat-cell {
-  border: 1px solid #fff;
-  padding: 10px;
+  border: 1px solid #ddd;
+  padding: 8px;
   text-align: left;
-  color: #fff;
 }
+
+

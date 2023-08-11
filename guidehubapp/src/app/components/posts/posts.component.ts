@@ -1,6 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators  } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { PostDetailsDialogComponent } from 'src/app/post-details-dialog/post-details-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
+
+
+
+
+
+
 
 @Component({
   selector: 'app-posts',
@@ -12,9 +22,11 @@ export class PostsComponent implements OnInit {
   postForm: FormGroup;
   categories: any[] = [];
 
-  displayedColumns: string[] = ['postId', 'title', 'category', 'body', 'date', 'actions'];
+  displayedColumns: string[] = ['postId', 'title', 'category', 'date', 'actions'];
+  //////////////////////////////////////////////////////// TESTING FORM QUILL
+  testForm: FormGroup;
 
-
+///////////////////////////////////////////////////////
   // Form for creating a new post
   newPost = { title: '', body: '' };
 
@@ -23,14 +35,40 @@ export class PostsComponent implements OnInit {
 
   posts: any[] = [];
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) { 
+  constructor(
+    private http: HttpClient, 
+    private formBuilder: FormBuilder, 
+    private sanitizer: DomSanitizer,
+    private dialog: MatDialog ) { 
     // Initializing the postForm
     this.postForm = this.formBuilder.group({
       title: '',
       body: '',
       categoryId: ''
-        });
+    });
+
+    // Initializing the testForm for Quill
+    this.testForm = this.formBuilder.group({
+      editorContent: ['', Validators.required]
+    });
+
+    
   }
+
+  sanitizeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
+  openPostDetails(post: any) {
+    const dialogRef = this.dialog.open(PostDetailsDialogComponent, {
+      width: '80%',
+      data: { post: post }
+    });
+  }
+
+ 
+
+ 
 
   // Fetch categories from API
   ngOnInit() {
@@ -91,4 +129,9 @@ export class PostsComponent implements OnInit {
       });
     });
   }
+
+  
+ 
+
+
 }

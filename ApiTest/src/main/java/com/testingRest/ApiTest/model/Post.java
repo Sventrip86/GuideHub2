@@ -29,7 +29,7 @@ public class Post {
     @Column
     private String title;
 
-    @Column
+    @Column(columnDefinition="LONGTEXT")
     private String body;
 
 

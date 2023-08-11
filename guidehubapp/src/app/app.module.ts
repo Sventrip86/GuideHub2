@@ -16,6 +16,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HomeComponent } from './components/home/home.component';
 import {MatSelectModule} from '@angular/material/select';
+import { QuillModule } from 'ngx-quill';
+import { PostDetailsDialogComponent } from './post-details-dialog/post-details-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
 
 
 
@@ -28,6 +33,7 @@ import {MatSelectModule} from '@angular/material/select';
     CategoriesComponent,
     LoginComponent,
     HomeComponent,
+    PostDetailsDialogComponent,
     
   ],
   imports: [
@@ -41,7 +47,10 @@ import {MatSelectModule} from '@angular/material/select';
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule  
+    MatSelectModule,
+    QuillModule.forRoot(),
+    MatDialogModule
+    
   ],
   providers: [ ],
   bootstrap: [AppComponent]
