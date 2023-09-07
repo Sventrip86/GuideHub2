@@ -1,0 +1,35 @@
+/* Default styles for smaller screens */
+.container {
+    margin-top: 4rem;
+  }
+  
+  /* Media query for medium-sized screens and larger */
+  @media (min-width: 768px) {
+    /* Adjust container margin for medium-sized screens */
+    .container {
+      margin-top: 2rem;
+    }
+  
+    /* Make the table take up 2/3 of the container width */
+    .col-md-8 {
+      width: 66.66%;
+    }
+  
+    /* Make each right section take up 1/3 of the container width */
+    .col-md-4 {
+      width: 33.33%;
+    }
+  
+    /* Add any other styles for medium-sized screens here */
+  }
+  
+  /* Media query for larger screens */
+  @media (min-width: 992px) {
+    /* Increase the margin for larger screens if needed */
+    .container {
+      margin-top: 3rem;
+    }
+  
+    /* Add any other styles for larger screens here */
+  }
+  

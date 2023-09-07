@@ -19,6 +19,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { QuillModule } from 'ngx-quill';
 import { PostDetailsDialogComponent } from './post-details-dialog/post-details-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { UserdashComponent } from './components/userdash/userdash.component';
 
 
 
@@ -34,7 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     LoginComponent,
     HomeComponent,
     PostDetailsDialogComponent,
-    
+    UserdashComponent    
   ],
   imports: [
     BrowserModule,
