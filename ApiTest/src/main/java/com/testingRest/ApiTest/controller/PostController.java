@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @RestController
@@ -23,7 +24,7 @@ public class PostController {
     public ResponseEntity<List<Post>> getAllPosts(
         @RequestParam(required = false) String title,
                 @RequestParam(defaultValue = "title") String orderBy){
-        Specification<Post> specification = Specification.where(PostSpecification.hasTitle(title));
+        Specification<Post> spec = Specification.where(PostSpecification.hasTitle(title));
         List<Post> posts = postService.getAllPosts(spec, orderBy);
         return ResponseEntity.ok(posts);
     }

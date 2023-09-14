@@ -6,6 +6,8 @@ import com.testingRest.ApiTest.repostitory.CategoryRepository;
 import com.testingRest.ApiTest.repostitory.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,9 +20,9 @@ public class PostService {
     private PostRepository postRepository;
 
     // Method to get all posts from the database
-    public List<Post> getAllPosts() {
-        // Use the PostRepository to find and return all posts
-        return postRepository.findAll();
+    public List<Post> getAllPosts(Specification<Post> spec, String orderBy) {
+        Sort sort = Sort.by(orderBy);
+        return postRepository.findAll(spec, sort);
     }
 
     // Method to get a post by its ID
