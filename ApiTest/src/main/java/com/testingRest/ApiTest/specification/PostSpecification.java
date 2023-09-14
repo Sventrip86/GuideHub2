@@ -2,7 +2,7 @@ package com.testingRest.ApiTest.specification;
 
 import com.testingRest.ApiTest.model.Post;
 import org.springframework.data.jpa.domain.Specification;
-import javax.persistence.criteria.*;
+
 
 public class PostSpecification {
 

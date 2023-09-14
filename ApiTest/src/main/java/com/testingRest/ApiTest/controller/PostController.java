@@ -2,7 +2,9 @@ package com.testingRest.ApiTest.controller;
 
 import com.testingRest.ApiTest.model.Post;
 import com.testingRest.ApiTest.service.PostService;
+import com.testingRest.ApiTest.specification.PostSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +20,12 @@ public class PostController {
 
     // Handles HTTP GET request to retrieve all posts
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
-        // Retrieve all posts using the PostService and return them with a 200 OK status code
-        return ResponseEntity.ok(postService.getAllPosts());
+    public ResponseEntity<List<Post>> getAllPosts(
+        @RequestParam(required = false) String title,
+                @RequestParam(defaultValue = "title") String orderBy){
+        Specification<Post> specification = Specification.where(PostSpecification.hasTitle(title));
+        List<Post> posts = postService.getAllPosts(spec, orderBy);
+        return ResponseEntity.ok(posts);
     }
 
     // Handles HTTP GET request to retrieve a post by its ID
