@@ -20,15 +20,19 @@ public class PostService {
     private PostRepository postRepository;
 
     // Method to get all posts from the database
-    public List<Post> getAllPosts(Specification<Post> spec, String orderBy) {
-        Sort sort = Sort.by(orderBy);
-        return postRepository.findAll(spec, sort);
+    public List<Post> getAllPosts() {
+        // Use the PostRepository to find and return all posts
+        return postRepository.findAll();
     }
 
     // Method to get a post by its ID
     public Optional<Post> getPostById(Long id) {
         // Use the PostRepository to find the post by its ID and return it as an Optional
         return postRepository.findById(id);
+    }
+
+    public List<Post> searchAndOrderPosts(String searchTerm) {
+        return postRepository.findByTitleContainingOrderByTitleAsc(searchTerm);
     }
 
     @Autowired

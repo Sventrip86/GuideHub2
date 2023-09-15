@@ -21,12 +21,11 @@ public class PostController {
 
     // Handles HTTP GET request to retrieve all posts
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts(
-        @RequestParam(required = false) String title,
-                @RequestParam(defaultValue = "title") String orderBy){
-        Specification<Post> spec = Specification.where(PostSpecification.hasTitle(title));
-        List<Post> posts = postService.getAllPosts(spec, orderBy);
-        return ResponseEntity.ok(posts);
+    public ResponseEntity<List<Post>> getAllPosts(@RequestParam(required = false) String searchTerm) {
+        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+            return ResponseEntity.ok(postService.searchAndOrderPosts(searchTerm));
+        }
+        return ResponseEntity.ok(postService.getAllPosts());
     }
 
     // Handles HTTP GET request to retrieve a post by its ID
