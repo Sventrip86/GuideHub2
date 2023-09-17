@@ -1,5 +1,6 @@
 <div class="container">
   <div class="form-section col-lg-6 col-md-12">
+    
   <h1>Add New Note </h1>
   <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
@@ -26,7 +27,14 @@
 
 
 <!--Table of posts-->
+
+
 <div class="table-section">
+    <input type="text" [(ngModel)]="searchTerm" (input)="fetchPosts()" placeholder="Search Posts...">
+    <select [(ngModel)]="orderBy" (change)="fetchPosts()">
+        <option value="asc">Ascending Date</option>
+        <option value="desc">Descending Date</option>
+      </select>
   <table mat-table [dataSource]="posts" class="mat-elevation-z8">
 
       <ng-container matColumnDef="postId">

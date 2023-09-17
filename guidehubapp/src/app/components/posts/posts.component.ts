@@ -7,11 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 
 
 
-
-
-
-
-
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
@@ -21,7 +16,6 @@ export class PostsComponent implements OnInit {
 
   postForm: FormGroup;
   categories: any[] = [];
-
   displayedColumns: string[] = ['postId', 'title', 'category', 'date', 'actions'];
   //////////////////////////////////////////////////////// TESTING FORM QUILL
   testForm: FormGroup;
@@ -29,7 +23,8 @@ export class PostsComponent implements OnInit {
 ///////////////////////////////////////////////////////
   // Form for creating a new post
   newPost = { title: '', body: '' };
-
+  searchTerm: string = '';
+  orderBy: 'asc' | 'desc' = 'asc'; // set default to ascending
   // Form for editing an existing post
   editedPost = { title: '', body: '' };
 
@@ -66,23 +61,58 @@ export class PostsComponent implements OnInit {
     });
   }
 
- 
+  fetchPosts() {
+    console.log('Order By:', this.orderBy);
 
- 
+    let url = `http://localhost:8080/api/posts`;
+
+    // If there's a searchTerm, add it to the URL
+    if (this.searchTerm) {
+      url += `/search?term=${this.searchTerm}`;
+    }
+
+   
+
+    this.http.get<any[]>(url).subscribe((posts: any[]) => {
+        this.posts = this.mapPosts(posts);
+
+        if (this.orderBy === 'desc') {
+            this.posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        } else {
+            this.posts.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        }
+    });
+}
+
+
+
+fetchPostsWithSearch() {
+    const url = `http://localhost:8080/api/posts/search?term=${this.searchTerm}`;
+    this.http.get<any[]>(url).subscribe((posts: any[]) => {
+        this.posts = this.mapPosts(posts);
+    });
+}
+
+fetchPostsWithOrder() {
+    const url = `http://localhost:8080/api/posts/order?type=${this.orderBy}`;
+    this.http.get<any[]>(url).subscribe((posts: any[]) => {
+        this.posts = this.mapPosts(posts);
+    });
+}
+
+mapPosts(posts: any[]) {
+    return posts.map(post => ({
+        ...post,
+        categoryName: this.categories.find(category => category.categoryId === post.category)?.name
+    }));
+}
+
 
   // Fetch categories from API
   ngOnInit() {
     this.http.get<any[]>('http://localhost:8080/api/categories').subscribe((categories: any[]) => {
       this.categories = categories;
-  
-      // Fetch posts from API
-      this.http.get<any[]>('http://localhost:8080/api/posts').subscribe((posts: any[]) => {
-        // Associate each post with its category name
-        this.posts = posts.map(post => ({
-          ...post,
-          categoryName: this.categories.find(category => category.categoryId === post.category)?.name
-        }));
-      });
+      this.fetchPosts(); // Use fetchPosts method instead of direct http call
     });
   }
 
@@ -92,46 +122,37 @@ export class PostsComponent implements OnInit {
     const postData = {
       ...this.postForm.value,
           // Category is now an object with a name property
-
       category: {
         name: this.categories.find(category => category.categoryId === Number(this.postForm.value.categoryId))?.name
       }
     };
-  
-    console.log(postData);
-  
+    
     // Post the data to the server
     this.http.post('http://localhost:8080/api/posts', postData).subscribe(res => {
       console.log(res);
       // Reset the form
       this.postForm.reset();
+      this.fetchPosts();  // After a new post is added, fetch the posts again
     });
   }
 
   // Handler for deleting a post
   deletePost(postId: number) {
     this.http.delete('http://localhost:8080/api/posts/' + postId).subscribe(response => {
-      // Handle response here
-      // Reload posts from API to reflect changes
-      this.http.get<any[]>('http://localhost:8080/api/posts').subscribe((posts: any[]) => {
-        this.posts = posts;
-      });
+      this.fetchPosts(); // After a post is deleted, fetch the posts again
     });
   }
-
   // Handler for updating a post
   updatePost(postId: number, post: any) {
     this.http.put('http://localhost:8080/api/posts/' + postId, post).subscribe(response => {
-      // Handle response here
-      // Reload posts from API to reflect changes
-      this.http.get<any[]>('http://localhost:8080/api/posts').subscribe((posts: any[]) => {
-        this.posts = posts;
-      });
+      this.fetchPosts(); // After a post is updated, fetch the posts again
     });
   }
 
-  
- 
-
 
 }
+
+  
+
+
+
