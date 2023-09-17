@@ -71,8 +71,7 @@ export class PostsComponent implements OnInit {
       url += `/search?term=${this.searchTerm}`;
     }
 
-   
-
+    // If there's an orderBy, add it to the URL
     this.http.get<any[]>(url).subscribe((posts: any[]) => {
         this.posts = this.mapPosts(posts);
 
@@ -83,7 +82,6 @@ export class PostsComponent implements OnInit {
         }
     });
 }
-
 
 
 fetchPostsWithSearch() {

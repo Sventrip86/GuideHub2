@@ -33,29 +33,53 @@ export class UserdashComponent implements OnInit{
     });
   }
 
-  ngOnInit() {
-    // Fetch categories from API
-    this.http.get<any[]>('http://localhost:8080/api/categories').subscribe((categories: any[]) => {
-      this.categories = categories;
-  
-      // Fetch posts from API
-      this.http.get<any[]>('http://localhost:8080/api/posts').subscribe((posts: any[]) => {
-        // Associate each post with its category name
-        this.posts = posts.map(post => ({
-          ...post,
-          categoryName: this.categories.find(category => category.categoryId === post.category)?.name
-        }));
-      });
+  fetchPosts() {
+    console.log('Order By:', this.orderBy);
+
+    let url = `http://localhost:8080/api/posts`;
+
+    // If there's a searchTerm, add it to the URL
+    if (this.searchTerm) {
+      url += `/search?term=${this.searchTerm}`;
+    }
+
+    // If there's an orderBy, add it to the URL
+    this.http.get<any[]>(url).subscribe((posts: any[]) => {
+        this.posts = this.mapPosts(posts);
+
+        if (this.orderBy === 'desc') {
+            this.posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        } else {
+            this.posts.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        }
     });
+}
+
+mapPosts(posts: any[]) {
+  return posts.map(post => ({
+      ...post,
+      categoryName: this.categories.find(category => category.categoryId === post.category)?.name
+  }));
+}
+
+  ngOnInit(): void {
+    this.http.get<any[]>('http://localhost:8080/api/categories').subscribe(categories => {
+      this.categories = categories;
+    });
+
+    this.fetchPosts();
   }
 
-  // Handler for deleting a post
-  deletePost(postId: number) {
-    this.http.delete('http://localhost:8080/api/posts/' + postId).subscribe(response => {
-      // Reload posts from API to reflect changes
-      this.http.get<any[]>('http://localhost:8080/api/posts').subscribe((posts: any[]) => {
-        this.posts = posts;
-      });
-    });
+  searchTerm: string = '';
+
+  onSearch() {
+    this.fetchPosts();
   }
+
+  orderBy: string = 'asc';
+
+  onOrder() {
+    this.fetchPosts();
+  }
+
 }
