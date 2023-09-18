@@ -7,7 +7,9 @@ import com.testingRest.ApiTest.repostitory.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,11 @@ public class PostService {
         // Use the PostRepository to find and return all posts
         return postRepository.findAll();
     }
+    public List<Post> searchPosts(String searchTerm) {
+        PageRequest pageable = PageRequest.of(0, 100, Sort.by("title"));
+        return postRepository.findByTitleContaining(searchTerm, pageable);
+    }
+
 
     // Method to get a post by its ID
     public Optional<Post> getPostById(Long id) {
@@ -31,9 +38,7 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public List<Post> searchAndOrderPosts(String searchTerm) {
-        return postRepository.findByTitleContainingOrderByTitleAsc(searchTerm);
-    }
+
 
     @Autowired
     private CategoryRepository categoryRepository;

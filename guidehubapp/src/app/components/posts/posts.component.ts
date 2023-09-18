@@ -84,20 +84,6 @@ export class PostsComponent implements OnInit {
 }
 
 
-fetchPostsWithSearch() {
-    const url = `http://localhost:8080/api/posts/search?term=${this.searchTerm}`;
-    this.http.get<any[]>(url).subscribe((posts: any[]) => {
-        this.posts = this.mapPosts(posts);
-    });
-}
-
-fetchPostsWithOrder() {
-    const url = `http://localhost:8080/api/posts/order?type=${this.orderBy}`;
-    this.http.get<any[]>(url).subscribe((posts: any[]) => {
-        this.posts = this.mapPosts(posts);
-    });
-}
-
 mapPosts(posts: any[]) {
     return posts.map(post => ({
         ...post,

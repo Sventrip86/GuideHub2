@@ -2,9 +2,8 @@ package com.testingRest.ApiTest.controller;
 
 import com.testingRest.ApiTest.model.Post;
 import com.testingRest.ApiTest.service.PostService;
-import com.testingRest.ApiTest.specification.PostSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +20,19 @@ public class PostController {
 
     // Handles HTTP GET request to retrieve all posts
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts(@RequestParam(required = false) String searchTerm) {
-        if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            return ResponseEntity.ok(postService.searchAndOrderPosts(searchTerm));
-        }
-        return ResponseEntity.ok(postService.getAllPosts());
+    public ResponseEntity<List<Post>> getAllPosts() {
+        List<Post> posts = postService.getAllPosts();
+        return new ResponseEntity<>(posts, HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<Post>> searchPosts(@RequestParam(value = "term") String searchTerm) {
+        List<Post> posts = postService.searchPosts(searchTerm);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
+
+
 
     // Handles HTTP GET request to retrieve a post by its ID
     @GetMapping("/{id}")

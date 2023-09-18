@@ -1,73 +1,85 @@
 <div class="container">
-  <div class="form-section col-lg-6 col-md-12">
-    
-  <h1>Add New Note </h1>
-  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-    <mat-form-field appearance="fill">
-        <mat-label>Title</mat-label>
-        <input matInput type="text" formControlName="title" required>
-    </mat-form-field>
-    <div>    
-        <quill-editor class="quill-editor" formControlName="body"></quill-editor>
+    <div class="form-section col-lg-6 col-md-12">
+
+        <h1>Add New Note </h1>
+        <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="fill">
+                <mat-label>Title</mat-label>
+                <input matInput type="text" formControlName="title" required>
+            </mat-form-field>
+            <div>
+                <quill-editor class="quill-editor" formControlName="body"></quill-editor>
+            </div>
+            <mat-form-field appearance="fill">
+                <mat-label>Category</mat-label>
+                <mat-select formControlName="categoryId" required>
+                    <mat-option *ngFor="let category of categories"
+                        [value]="category.categoryId">{{category.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-raised-button color="primary" type="submit">Submit</button>
+        </form>
+
+
+
+
     </div>
-    <mat-form-field appearance="fill">
-        <mat-label>Category</mat-label>
-        <mat-select formControlName="categoryId" required>
-            <mat-option *ngFor="let category of categories" [value]="category.categoryId">{{category.name}}</mat-option>
-        </mat-select>
-    </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Submit</button>
-</form>
-
-  
-  
-      
-  </div>
 
 
 
-<!--Table of posts-->
+    <!--Table of posts-->
 
 
-<div class="table-section">
-    <input type="text" [(ngModel)]="searchTerm" (input)="fetchPosts()" placeholder="Search Posts...">
-    <select [(ngModel)]="orderBy" (change)="fetchPosts()">
-        <option value="asc">Ascending Date</option>
-        <option value="desc">Descending Date</option>
-      </select>
-  <table mat-table [dataSource]="posts" class="mat-elevation-z8">
+    <div class="table-section">
+        <div class="row">
+            <div class="search-container col-lg-6">
+                <label for="searchTerm" class="form-label">Search</label>
 
-      <ng-container matColumnDef="postId">
-          <th mat-header-cell *matHeaderCellDef>ID</th>
-          <td mat-cell *matCellDef="let post">{{ post.postId }}</td>
-      </ng-container>
+                <input class="form-control searchTerm" type="text" [(ngModel)]="searchTerm" (input)="fetchPosts()"
+                    placeholder="Search Posts..." aria-label="default input example">
+            </div>
+            <div class="order-container col-lg-6">
+                <label for="orderBy" class="form-label">Order By</label>
+                <select [(ngModel)]="orderBy" (change)="fetchPosts()" class="form-select" aria-label="Default select">
+                    <option value="asc">Ascending Date</option>
+                    <option value="desc">Descending Date</option>
+                </select>
+            </div>
+        </div>
+        <table mat-table [dataSource]="posts" class="mat-elevation-z8">
 
-      <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef>Title</th>
-          <td mat-cell *matCellDef="let post">{{ post.title }}</td>
-      </ng-container>
+            <ng-container matColumnDef="postId">
+                <th mat-header-cell *matHeaderCellDef>ID</th>
+                <td mat-cell *matCellDef="let post">{{ post.postId }}</td>
+            </ng-container>
 
-      <ng-container matColumnDef="category">
-          <th mat-header-cell *matHeaderCellDef>Categories</th>
-          <td mat-cell *matCellDef="let post">{{ post.category.name }}</td>
-      </ng-container>
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef>Title</th>
+                <td mat-cell *matCellDef="let post">{{ post.title }}</td>
+            </ng-container>
 
-     
+            <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef>Categories</th>
+                <td mat-cell *matCellDef="let post">{{ post.category.name }}</td>
+            </ng-container>
 
-      <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef>Date</th>
-          <td mat-cell *matCellDef="let post">{{ post.date | date }}</td>
-      </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let post">
-            <button mat-button class="view-button" (click)="openPostDetails(post)">View</button>
-            <button mat-raised-button color="warn"  class="delete-button" (click)="deletePost(post.postId)">Delete</button>
-        </td>
-    </ng-container>
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-</div>
+
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef>Date</th>
+                <td mat-cell *matCellDef="let post">{{ post.date | date }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let post">
+                    <button mat-button class="view-button" (click)="openPostDetails(post)">View</button>
+                    <button mat-raised-button color="warn" class="delete-button"
+                        (click)="deletePost(post.postId)">Delete</button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
 </div>
