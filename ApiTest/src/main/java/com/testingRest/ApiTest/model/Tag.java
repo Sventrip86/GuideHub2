@@ -1,19 +1,19 @@
 package com.testingRest.ApiTest.model;
 
 import jakarta.persistence.*;
-
-import java.util.Set;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Entity
-@Table(name = "categories")
-public class Category {
+@Table(name = "tags")
+public class Tag {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryId;
-
+    private Long tagId;
     @Column
     private String name;
+
 
     public String getName() {
         return name;
@@ -23,12 +23,12 @@ public class Category {
         this.name = name;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Long getTagId() {
+        return tagId;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setTagId(Long tagId) {
+        this.tagId = tagId;
     }
 
 }

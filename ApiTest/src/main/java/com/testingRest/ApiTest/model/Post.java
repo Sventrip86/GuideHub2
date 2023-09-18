@@ -42,6 +42,17 @@ public class Post {
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "post_tags",
+            joinColumns = @JoinColumn(name = "post_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+
+    private Set<Tag> tags = new HashSet<>();
+
+    public Set<Tag> getTags() {
+        return this.tags;
+    }
+
     // No-arg constructor
     public Post() {
     }
