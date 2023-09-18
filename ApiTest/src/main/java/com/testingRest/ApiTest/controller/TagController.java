@@ -26,13 +26,15 @@ public class TagController {
 
     @PostMapping
     public ResponseEntity<Tag> createTag(@RequestBody Tag tag) {
-        return ResponseEntity.ok(tagService.createTag(tag));
+        Tag createdTag = tagService.createTag(tag);
+        return new ResponseEntity<>(createdTag, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteTag(@PathVariable Long id) {
-        tagService.deleteTag(id);
-        return ResponseEntity.ok().build();
+    @GetMapping("/{id}")
+    public ResponseEntity<Tag> getTag(@PathVariable Long id) {
+        return tagService.getTagById(id)
+                .map(tag -> new ResponseEntity<>(tag, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
 

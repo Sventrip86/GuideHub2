@@ -4,6 +4,7 @@ package com.testingRest.ApiTest.model;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import java.util.Objects;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -46,8 +47,9 @@ public class Post {
     @JoinTable(name = "post_tags",
             joinColumns = @JoinColumn(name = "post_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id"))
-
     private Set<Tag> tags = new HashSet<>();
+
+    // Getters and setters
 
     public Set<Tag> getTags() {
         return this.tags;
@@ -57,6 +59,35 @@ public class Post {
     public Post() {
     }
 
+
+    public void addTag(Tag tag) {
+        tags.add(tag);
+        tag.getPosts().add(this);
+    }
+
+    public void removeTag(Tag tag) {
+        tags.remove(tag);
+        tag.getPosts().remove(this);
+    }
+
+    public void removeAllTags() {
+        for (Tag tag : new HashSet<>(tags)) {
+            removeTag(tag);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Post post = (Post) o;
+        return Objects.equals(postId, post.postId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(postId);
+    }
 
     public String getTitle() {
         return title;

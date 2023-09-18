@@ -15,6 +15,7 @@ public class TagService {
     private TagRepository tagRepository;
 
 
+
     public List<Tag> getAllTags() {
         // Use the TagRepository to find and return all tags
         return tagRepository.findAll();
@@ -36,6 +37,14 @@ public class TagService {
             throw new RuntimeException("Tag not found for the id : " + id);
         }
     }
+
+    public Optional<Tag> getTagById(Long id) {
+        return tagRepository.findById(id);
+    }
+    public Optional<Tag> getTagByName(String name) {
+        return tagRepository.findByName(name);
+    }
+
 
 
 }
