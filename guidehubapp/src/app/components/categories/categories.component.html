@@ -1,42 +1,3 @@
-<!-- <div class="container">
-    <h1>Manage Categories dashboard</h1>
-  
-  
-   <!-- Form to add new category 
-<div class="form-section">
-    <form (ngSubmit)="createCategory()">
-        <div class="form-group">
-            <label for="newCategory">New Category Name</label>
-            <input type="text" id="newCategory" class="form-control" [(ngModel)]="newCategory" name="newCategory" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Add Category</button>
-    </form>
-</div>
-
-  
-    <!-- Table to list existing categories 
-    <div class="table-section">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let category of categories">
-            <td>{{ category.categoryId }}</td>
-            <td>{{ category.name }}</td>
-            <td>
-              <button (click)="deleteCategory(category.categoryId)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-   -->
 
    <div class="container">
     <h1>Manage Categories dashboard</h1>
@@ -80,5 +41,8 @@
         <tr mat-row *matRowDef="let row; columns: ['categoryId', 'name', 'actions']"></tr>
       </table>
     </div>
+
+      <!-- Tag list -->
+  <app-tag-list></app-tag-list>
   </div>
   

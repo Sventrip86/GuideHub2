@@ -15,6 +15,7 @@ export class UserdashComponent implements OnInit{
 
   categories: any[] = [];
   posts: any[] = [];
+  tags: any[] = [];
 
   constructor(
     private http: HttpClient, 

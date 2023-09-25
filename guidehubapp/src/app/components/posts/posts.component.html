@@ -1,30 +1,52 @@
 <div class="container">
     <div class="form-section col-lg-6 col-md-12">
+        <h1>Add New Note</h1>
 
-        <h1>Add New Note </h1>
         <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+
+           <!-- Tag Input with Autocomplete -->
+           <mat-form-field class="example-full-width">
+            <input matInput placeholder="Add tags" formControlName="tagInput" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="addTagFromAutocomplete($event)">
+                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+                    {{ tag.name }}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <button mat-button type="button" (click)="addTagFromButton()">Add</button>
+        
+
+<div class="tags-display" formArrayName="tags">
+    <div *ngFor="let tagCtrl of tags.controls; let i = index" class="tag-item">
+        {{ tagCtrl.value }} <!-- display the tag value -->
+        <button mat-button type="button" (click)="removeTag(i)">X</button>
+    </div>
+</div>
+
+            
+
             <mat-form-field appearance="fill">
                 <mat-label>Title</mat-label>
                 <input matInput type="text" formControlName="title" required>
             </mat-form-field>
+
             <div>
                 <quill-editor class="quill-editor" formControlName="body"></quill-editor>
             </div>
+
             <mat-form-field appearance="fill">
                 <mat-label>Category</mat-label>
                 <mat-select formControlName="categoryId" required>
-                    <mat-option *ngFor="let category of categories"
-                        [value]="category.categoryId">{{category.name}}</mat-option>
+                    <mat-option *ngFor="let category of categories" [value]="category.categoryId">
+                        {{category.name}}
+                    </mat-option>
                 </mat-select>
             </mat-form-field>
+
             <button mat-raised-button color="primary" type="submit">Submit</button>
         </form>
-
-
-
-
     </div>
-
+</div>
 
 
     <!--Table of posts-->
@@ -82,4 +104,3 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
     </div>
-</div>

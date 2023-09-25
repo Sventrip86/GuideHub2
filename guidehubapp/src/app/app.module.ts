@@ -20,6 +20,9 @@ import { QuillModule } from 'ngx-quill';
 import { PostDetailsDialogComponent } from './post-details-dialog/post-details-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UserdashComponent } from './components/userdash/userdash.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatChipsModule } from '@angular/material/chips';
+import { TagListComponent } from './components/tag-list/tag-list.component';
 
 
 
@@ -35,7 +38,8 @@ import { UserdashComponent } from './components/userdash/userdash.component';
     LoginComponent,
     HomeComponent,
     PostDetailsDialogComponent,
-    UserdashComponent    
+    UserdashComponent,
+    TagListComponent    
   ],
   imports: [
     BrowserModule,
@@ -50,7 +54,9 @@ import { UserdashComponent } from './components/userdash/userdash.component';
     MatInputModule,
     MatSelectModule,
     QuillModule.forRoot(),
-    MatDialogModule
+    MatDialogModule,
+    MatChipsModule,
+    MatAutocompleteModule
     
   ],
   providers: [ ],
