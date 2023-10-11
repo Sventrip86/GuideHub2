@@ -3,9 +3,18 @@ package com.testingRest.ApiTest.controller;
 import com.testingRest.ApiTest.model.Post;
 import com.testingRest.ApiTest.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.testingRest.ApiTest.model.Tag;
+import com.testingRest.ApiTest.service.TagService;
+import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
+
 
 
 import java.util.List;
@@ -17,6 +26,9 @@ public class PostController {
     // Inject the PostService using autowiring
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private TagService tagService; // Injecting the TagService
 
     // Handles HTTP GET request to retrieve all posts
     @GetMapping
@@ -45,11 +57,25 @@ public class PostController {
     }
 
     // Handles HTTP POST request to create a new post
+
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        // Save the new post using the PostService and return it with a 200 OK status code
+        Set<Tag> processedTags = new HashSet<>();
+
+        for (Tag tag : post.getTags()) {
+            Optional<Tag> existingTagOpt = tagService.getTagByName(tag.getName());
+
+            if (existingTagOpt.isPresent()) {
+                processedTags.add(existingTagOpt.get());
+            } else {
+                processedTags.add(tag);
+            }
+        }
+
+        post.setTags(processedTags);
         return ResponseEntity.ok(postService.savePost(post));
     }
+
 
     // Handles HTTP PUT request to update an existing post by its ID
     @PutMapping("/{id}")
@@ -75,4 +101,11 @@ public class PostController {
         // Return a 204 No Content status code indicating successful deletion
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/searchByTag")
+    public ResponseEntity<List<Post>> getPostsByTagName(@RequestParam String tagName) {
+        List<Post> posts = postService.getPostsByTagName(tagName);
+        return new ResponseEntity<>(posts, HttpStatus.OK);
+    }
+
 }

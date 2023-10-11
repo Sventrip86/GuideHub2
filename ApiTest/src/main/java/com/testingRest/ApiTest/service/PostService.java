@@ -30,15 +30,15 @@ public class PostService {
         PageRequest pageable = PageRequest.of(0, 100, Sort.by("title"));
         return postRepository.findByTitleContaining(searchTerm, pageable);
     }
-
+    public List<Post> getPostsByTagName(String tagName) {
+        return postRepository.findPostsByTagName(tagName);
+    }
 
     // Method to get a post by its ID
     public Optional<Post> getPostById(Long id) {
         // Use the PostRepository to find the post by its ID and return it as an Optional
         return postRepository.findById(id);
     }
-
-
 
     @Autowired
     private CategoryRepository categoryRepository;

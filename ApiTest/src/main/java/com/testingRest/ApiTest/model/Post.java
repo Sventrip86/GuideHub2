@@ -55,6 +55,10 @@ public class Post {
         return this.tags;
     }
 
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
     // No-arg constructor
     public Post() {
     }

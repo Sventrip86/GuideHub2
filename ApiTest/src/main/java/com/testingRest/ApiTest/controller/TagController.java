@@ -26,9 +26,13 @@ public class TagController {
 
     @PostMapping
     public ResponseEntity<Tag> createTag(@RequestBody Tag tag) {
+        if (tagService.tagExists(tag.getName())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
         Tag createdTag = tagService.createTag(tag);
         return new ResponseEntity<>(createdTag, HttpStatus.CREATED);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Tag> getTag(@PathVariable Long id) {
@@ -36,8 +40,4 @@ public class TagController {
                 .map(tag -> new ResponseEntity<>(tag, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
-
-
-
 }

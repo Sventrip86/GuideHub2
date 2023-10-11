@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.testingRest.ApiTest.repostitory.TagRepository;
 import com.testingRest.ApiTest.model.Tag;
+
+import java.util.Comparator;
 import java.util.Optional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TagService {
@@ -17,12 +20,18 @@ public class TagService {
 
 
     public List<Tag> getAllTags() {
-        // Use the TagRepository to find and return all tags
-        return tagRepository.findAll();
+        List<Tag> tags = tagRepository.findAllWithUsageCount();
+        for (Tag tag : tags) {
+            tag.setUsageCount((long) tag.getPosts().size());
+        }
+        return tags.stream()
+                .sorted(Comparator.comparing(Tag::getUsageCount).reversed())
+                .collect(Collectors.toList());
     }
-
     public Tag createTag(Tag tag) {
-        // Save the new tag using the TagRepository and return the saved tag
+        if (tagExists(tag.getName())) {
+            throw new RuntimeException("Tag with name: " + tag.getName() + " already exists.");
+        }
         return tagRepository.save(tag);
     }
 
@@ -36,6 +45,11 @@ public class TagService {
             // If the tag with the given ID does not exist, throw a RuntimeException
             throw new RuntimeException("Tag not found for the id : " + id);
         }
+    }
+
+
+    public boolean tagExists(String name) {
+        return tagRepository.findByName(name).isPresent();
     }
 
     public Optional<Tag> getTagById(Long id) {
