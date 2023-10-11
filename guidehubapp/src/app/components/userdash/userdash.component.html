@@ -5,17 +5,22 @@
     <div class="row">
       <!-- Left Section (1/2 of container) -->
         <div class="row">
-          <div class="search-container col-lg-6">
+          <div class="search-container col-lg-4">
             <label for="searchTerm" class="form-label">Search</label>
             <input class="form-control searchTerm" type="text" [(ngModel)]="searchTerm" (input)="fetchPosts()"
               placeholder="Search Posts..." aria-label="default input example">
           </div>
-          <div class="order-container col-lg-6">
+          <div class="order-container col-lg-4">
             <label for="orderBy" class="form-label">Order By</label>
             <select [(ngModel)]="orderBy" (change)="fetchPosts()" class="form-select" aria-label="Default select">
               <option value="asc">Ascending Date</option>
               <option value="desc">Descending Date</option>
             </select>
+          </div>
+          <div class="search-container col-lg-4">
+            <label for="searchTerm" class="form-label">Search</label>
+            <input class="form-control searchTerm" type="text" [(ngModel)]="searchTerm" (input)="fetchPosts()"
+              placeholder="Filter by Tags..." aria-label="default input example">
           </div>
         </div>
         <table class="table table-bordered table-striped mt-3">
@@ -23,7 +28,8 @@
             <tr>
               <th>ID</th>
               <th>Title</th>
-              <th>Categories</th>
+              <th>Category</th>
+              <th>Tags</th>
               <th>Date</th>
               <th>Actions</th>
             </tr>
@@ -33,6 +39,9 @@
               <td>{{ post.postId }}</td>
               <td>{{ post.title }}</td>
               <td>{{ post.category.name }}</td>
+              <td>
+                <span *ngFor="let tag of post.tags; let last = last">{{ tag.name }}<span *ngIf="!last">, </span></span>
+              </td>
               <td>{{ post.date | date }}</td>
               <td>
                 <button class="btn btn-info btn-sm" (click)="openPostDetails(post)">View</button>

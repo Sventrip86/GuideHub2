@@ -1,12 +1,23 @@
 <div class="card">
     <div class="card-header">
       <h4>Tags</h4>
-    </div>
-    <div class="card-body">
-      <ul class="list-group">
-        <li class="list-group-item" *ngFor="let tag of tags">
-          <i class="bi bi-tag-fill me-2"></i>{{ tag.name }}
-        </li>
-      </ul>
-    </div>
+<div class="card-body">
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tag Name</th>
+        <th>Usage Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tag of tags">
+        <td>{{ tag.tagId }}</td>
+        <td>{{ tag.name }}</td>
+        <td>{{ tag.usageCount }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
   </div>

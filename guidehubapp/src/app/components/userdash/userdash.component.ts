@@ -29,7 +29,7 @@ export class UserdashComponent implements OnInit{
 
   openPostDetails(post: any) {
     const dialogRef = this.dialog.open(PostDetailsDialogComponent, {
-      width: '80%',
+      width: '70%',
       data: { post: post }
     });
   }
@@ -43,6 +43,11 @@ export class UserdashComponent implements OnInit{
     if (this.searchTerm) {
       url += `/search?term=${this.searchTerm}`;
     }
+    if (this.searchTerm) {
+      url += `/searchByTag?tagName=${this.searchTerm}`;
+    }
+  
+    
 
     // If there's an orderBy, add it to the URL
     this.http.get<any[]>(url).subscribe((posts: any[]) => {
